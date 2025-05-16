@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon carnet d'adresse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+  <h1 class="text-white">Mon carnet d'adresse</h1>
+</div>
+
+<div class="container">
+        <div class="row g-4">
+            {% for user in users %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ user.full_name }}</h2>
+                        <p class="text-primary">{{ user.phone_number }}</p>
+                        <p>{{ user.address }}</p>
+                        <form method="post" action="{% url 'delete-contact' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="first_name" value="{{ user.first_name }}">
+                            <input type="hidden" name="last_name" value="{{ user.last_name }}">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row mt-5">
+        <form method="POST" action="{% url 'add-contact' %}">
+    {% csrf_token %}
+<div class="mb-3">
+    <label for="first-name" class="form-label">Prénom</label>
+    <input id="first-name" name="first_name" type="text" class="form-control" />
+</div>
+
+<div class="mb-3">
+      <label for="last-name" class="form-label">Nom</label>
+      <input id="last-name" name="last_name" type="text" class="form-control"/>
+</div>
+<div class="mb-3">
+      <label for="address" class="form-label">Adresse</label>
+      <textarea id="address" name="address" rows="3" class="form-control"></textarea>
+</div>
+<div class="mb-3">
+      <label for="phone-number" class="form-label">Téléphone</label>
+      <input id="phone-number" name="phone_number" type="text" class="form-control"/>
+</div>
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
